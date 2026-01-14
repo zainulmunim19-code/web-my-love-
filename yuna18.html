@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Yuna 💗</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-serif}
+
+/* BACKGROUND ASLI */
+body{
+    background: linear-gradient(135deg, #1a0b2e, #0d0521, #2d1b69);
+    color:white;
+}
+
+/* OPENING */
+.opening{
+    position:fixed;
+    inset:0;
+    background:rgba(10,5,30,0.96);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+    animation:openOut 1.2s ease 5.5s forwards;
+}
+
+.opening-text{
+    text-align:center;
+    font-family:'Dancing Script',cursive;
+    font-size:2.3rem;
+    line-height:2;
+    letter-spacing:1px;
+    text-shadow:
+        0 0 12px #ff9acb,
+        0 0 28px rgba(255,105,180,0.7);
+    animation:openIn 2s ease;
+}
+
+@keyframes openIn{
+    from{opacity:0;transform:scale(0.85)}
+    to{opacity:1;transform:scale(1)}
+}
+@keyframes openOut{
+    to{opacity:0;visibility:hidden}
+}
+
+/* FOTO TEMPEL BELAKANG */
+.photo-layer{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+}
+
+.photo{
+    position:absolute;
+    width:95px;
+    height:125px;
+    object-fit:cover;
+    background:white;
+    padding:6px;
+    border-radius:16px;
+    box-shadow:0 16px 35px rgba(0,0,0,0.6);
+    animation:wind 6s ease-in-out infinite alternate;
+}
+
+.photo.one{top:10%;right:6%;transform:rotate(6deg)}
+.photo.two{bottom:14%;left:8%;transform:rotate(-5deg)}
+.photo.three{top:42%;left:50%;transform:translateX(-50%) rotate(3deg)}
+
+@keyframes wind{
+    from{transform:translateY(0) rotate(var(--r))}
+    to{transform:translateY(-8px) rotate(calc(var(--r) + 2deg))}
+}
+
+/* HUJAN KATA */
+.love-rain{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:3;
+}
+
+.word{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%) rotate(var(--rot));
+    font-family:'Dancing Script',cursive;
+    font-size:1.8rem;
+    white-space:nowrap;
+    color:#ffd1e8;
+    text-shadow:
+        0 0 10px #ff69b4,
+        0 0 22px rgba(255,105,180,0.6);
+    animation:fall var(--dur) linear forwards;
+}
+
+@keyframes fall{
+    0%{top:-10%;opacity:0}
+    12%{opacity:1}
+    100%{top:110%;opacity:0}
+}
+
+/* HUJAN LOVE */
+.heart{
+    position:absolute;
+    top:-5%;
+    font-size:1.4rem;
+    opacity:0;
+    animation:heartFall linear forwards;
+}
+
+@keyframes heartFall{
+    0%{opacity:0;transform:translateY(0)}
+    15%{opacity:1}
+    100%{opacity:0;transform:translateY(120vh)}
+}
+
+/* TOMBOL MUSIK LUCU */
+#musicBtn{
+    position:fixed;
+    bottom:75px;
+    right:18px;
+    z-index:20;
+    background:linear-gradient(135deg,#ff69b4,#ff9acb);
+    border:none;
+    color:white;
+    font-size:0.85rem;
+    padding:10px 16px;
+    border-radius:30px;
+    box-shadow:
+        0 0 12px rgba(255,105,180,0.9),
+        inset 0 0 8px rgba(255,255,255,0.4);
+    cursor:pointer;
+    font-family:'Poppins',sans-serif;
+    animation:pulse 2s infinite;
+}
+
+#musicBtn:active{
+    transform:scale(0.95);
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+}
+
+audio{display:none}
+
+@media(max-width:480px){
+    .opening-text{font-size:2.05rem}
+    .word{font-size:1.9rem}
+}
+</style>
+</head>
+
+<body>
+
+<!-- OPENING -->
+<div class="opening">
+    <div class="opening-text">
+        haii Yuna sayang 🥰💗<br><br>
+        website ini aku buat menggunakan perasaan ,<br>
+        semoga kamu suka ya🙃💗
+    </div>
+</div>
+
+<!-- FOTO -->
+<div class="photo-layer">
+    <img src="foto1.jpg" class="photo one" style="--r:6deg">
+    <img src="foto2.jpg" class="photo two" style="--r:-5deg">
+    <img src="foto3.jpg" class="photo three" style="--r:3deg">
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+    <source src="sempurna.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOMBOL MUSIK -->
+<button id="musicBtn">💗 Play Musik</button>
+
+<!-- HUJAN -->
+<div class="love-rain" id="rain"></div>
+
+<script>
+const words=[
+ "I love you Yuna 💗",
+ "Aku sayang kamu 🥰",
+ "Aku cinta kamu 💕",
+ "Selamanya sama kamu 💞",
+ "You are my only one 💗"
+];
+
+const rain=document.getElementById("rain");
+
+/* HUJAN KATA */
+setInterval(()=>{
+    const w=document.createElement("div");
+    w.className="word";
+    w.innerText=words[Math.floor(Math.random()*words.length)];
+    w.style.setProperty("--rot",(Math.random()*10-5)+"deg");
+    w.style.setProperty("--dur",(11+Math.random()*6)+"s");
+    rain.appendChild(w);
+    setTimeout(()=>w.remove(),17000);
+},1300);
+
+/* HUJAN LOVE */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerText="💗";
+    h.style.left=(Math.random()*100)+"%";
+    h.style.animationDuration=(6+Math.random()*4)+"s";
+    rain.appendChild(h);
+    setTimeout(()=>h.remove(),10000);
+},900);
+
+/* TOMBOL MUSIK */
+const music=document.getElementById("bgMusic");
+const btn=document.getElementById("musicBtn");
+let playing=false;
+
+btn.onclick=()=>{
+    if(!playing){
+        music.play();
+        btn.textContent="💞 Pause Musik";
+        playing=true;
+    }else{
+        music.pause();
+        btn.textContent="💗 Play Musik";
+        playing=false;
+    }
+};
+</script>
+
+</body>
+</html>
